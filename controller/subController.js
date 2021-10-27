@@ -14,7 +14,6 @@ module.exports.create=async(req,res,next)=>{
 }
 
 module.exports.getOne=async(req,res,next)=>{
-    console.log(req.params.id)
     if( !mongoose.Types.ObjectId.isValid(req.params.id) ) return next()
     const sub=await Subject.findById(req.params.id)
     res.status(200).render('select2.ejs',{sub:sub})
@@ -42,13 +41,12 @@ module.exports.Update=async(req,res,next)=>{
 }
 module.exports.Delete=async(req,res,next)=>{
 
-    console.log(req.body.subName)
-    // try{
-    //     const subject=await Subject.findByIdAndDelete(req.params.id)
-    //     res.status(200).json({status:'success'})
-    // }catch(err){
-    //     res.status(400).json(err)
-    // }
+    try{
+        const subject=await Subject.findByIdAndDelete(req.params.id)
+        res.status(200).json({status:'success'})
+    }catch(err){
+        res.status(400).json(err)
+    }
 }
 
 
@@ -68,7 +66,3 @@ module.exports.createForm=(req,res,next)=>{
     res.status(200).render('createForm.ejs')
 }
 
-module.exports.deleteForm=async(req,res)=>{
-    const sub=await Subject.find()
-    res.render('deleteForm.ejs',{sub:sub})
-}
